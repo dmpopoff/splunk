@@ -1,0 +1,22 @@
+1) who is come from FB networks:
+SPL
+sourcetype=nginx:plus:access | 
+eval match=case(
+cidrmatch("31.13.24.0/21"		,src_ip) ,"1",
+cidrmatch("31.13.64.0/18"		,src_ip) ,"1",
+cidrmatch("45.64.40.0/22"		,src_ip) ,"1",
+cidrmatch("66.220.144.0/20"		,src_ip) ,"1",
+cidrmatch("69.63.176.0/20"		,src_ip) ,"1",
+cidrmatch("69.171.224.0/19"		,src_ip) ,"1",
+cidrmatch("74.119.76.0/22"		,src_ip) ,"1",
+cidrmatch("103.4.96.0/22"		,src_ip) ,"1",
+cidrmatch("129.134.0.0/17"		,src_ip) ,"1",
+cidrmatch("157.240.0.0/17"		,src_ip) ,"1",
+cidrmatch("173.252.64.0/18"		,src_ip) ,"1",
+cidrmatch("179.60.192.0/22"		,src_ip) ,"1",
+cidrmatch("185.60.216.0/22"		,src_ip) ,"1",
+cidrmatch("204.15.20.0/22"		,src_ip) ,"1",
+1=1,"0") | where match=1
+| table src_ip, match, access_request | stats count, values(src_ip) by access_request | sort -count
+
+description: we also can use subsearches+asn base
